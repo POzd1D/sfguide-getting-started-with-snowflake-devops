@@ -3,7 +3,7 @@ use role accountadmin;
 use schema quickstart_{{environment}}.silver;
 
 /*
-To join the flight and location focused tables 
+To join the flight and location focused tables  test
 we need to cross the gap between the airport and cities domains. 
 For this we make use of a Snowpark Python UDF. 
 What's really cool is that Snowpark allows us to define a vectorized UDF 

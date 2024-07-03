@@ -2,7 +2,7 @@ use role accountadmin;
 use schema quickstart_{{environment}}.gold;
 
 
--- declarative target table of pipeline
+-- declarative target table of pipeline test
 create or alter table vacation_spots (
     city varchar
   , airport varchar
