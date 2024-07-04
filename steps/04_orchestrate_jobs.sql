@@ -15,7 +15,7 @@ create or alter table vacation_spots (
   , aquarium_cnt int
 , zoo_cnt int
 , korean_restaurant_cnt int
-  -- STEP 5: INSERT CHANGES HERE
+, ZOO_AVG_CNT float
 ) data_retention_time_in_days = {{retention_time}};
 
 
@@ -25,10 +25,11 @@ create or alter task vacation_spots_update
   warehouse = 'database_wh'
   AS MERGE INTO vacation_spots USING (
     select *
+    ,AVG(ZOO_CNT) OVER () as ZOO_AVG_CNT
     from silver.flights_from_home flight
     join silver.weather_joined_with_major_cities city on city.geo_name = flight.arrival_city
     join silver.attractions att on att.geo_name = city.geo_name
-    -- STEP 5: INSERT CHANGES HERE
+   
   ) as harmonized_vacation_spots ON vacation_spots.city = harmonized_vacation_spots.arrival_city and vacation_spots.airport = harmonized_vacation_spots.arrival_airport
   WHEN MATCHED THEN
     UPDATE SET
@@ -41,7 +42,8 @@ create or alter task vacation_spots_update
       , vacation_spots.aquarium_cnt = harmonized_vacation_spots.aquarium_cnt
 , vacation_spots.zoo_cnt = harmonized_vacation_spots.zoo_cnt
 , vacation_spots.korean_restaurant_cnt = harmonized_vacation_spots.korean_restaurant_cnt
-      -- STEP 5: INSERT CHANGES HERE
+, vacation_spots.ZOO_AVG_CNT = harmonized_vacation_spots.ZOO_AVG_CNT
+  
   WHEN NOT MATCHED THEN 
     INSERT VALUES (
         harmonized_vacation_spots.arrival_city
@@ -55,7 +57,8 @@ create or alter task vacation_spots_update
       , harmonized_vacation_spots.aquarium_cnt
 , harmonized_vacation_spots.zoo_cnt
 , harmonized_vacation_spots.korean_restaurant_cnt
-      -- STEP 5: INSERT CHANGES HERE
+, harmonized_vacation_spots.ZOO_AVG_CNT
+ 
     );
 
 
@@ -74,7 +77,7 @@ create or alter task email_notification
           and avg_temperature_air_f >= 70
           and korean_restaurant_cnt > 0
 and (zoo_cnt > 0 or aquarium_cnt > 0)
-          -- STEP 5: INSERT CHANGES HERE
+ 
         limit 10);
 
 
