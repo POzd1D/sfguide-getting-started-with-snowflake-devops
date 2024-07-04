@@ -1,6 +1,6 @@
 -- Views to transform marketplace data in pipeline
 use role accountadmin;
-use schema quickstart_{{environment}}.silver;
+use schema database_{{environment}}.silver;
 
 /*
 To join the flight and location focused tables  test
@@ -64,7 +64,7 @@ create or replace view flights_from_home as
     punctual_pct,
   from flight_emissions
   join flight_punctuality on departure_airport = departure_iata_airport_code and arrival_airport = arrival_iata_airport_code
-  where departure_airport = (select $1:airport from @quickstart_common.public.quickstart_repo/branches/main/data/home.json (FILE_FORMAT => bronze.json_format));
+  where departure_airport = (select $1:airport from @database_common.public.database_repo/branches/main/data/home.json (FILE_FORMAT => bronze.json_format));
 
 -- Weather Source provides a weather forecast for the upcoming two weeks. 
 -- As the free versions of the data sets we use do not cover the entire globe, 

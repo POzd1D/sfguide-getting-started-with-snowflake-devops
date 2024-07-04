@@ -1,10 +1,10 @@
 USE ROLE ACCOUNTADMIN;
 
-CREATE WAREHOUSE IF NOT EXISTS QUICKSTART_WH WAREHOUSE_SIZE = XSMALL, AUTO_SUSPEND = 300, AUTO_RESUME= TRUE;
+CREATE WAREHOUSE IF NOT EXISTS DATABASE_WH WAREHOUSE_SIZE = XSMALL, AUTO_SUSPEND = 300, AUTO_RESUME= TRUE;
 
 
 -- Separate database for git repository test
-CREATE DATABASE IF NOT EXISTS QUICKSTART_COMMON;
+CREATE DATABASE IF NOT EXISTS DATABASE_COMMON;
 
 
 -- API integration is needed for GitHub integration
@@ -15,12 +15,12 @@ CREATE OR REPLACE API INTEGRATION git_api_integration
 
 
 -- Git repository object is similar to external stage
-CREATE OR REPLACE GIT REPOSITORY quickstart_common.public.quickstart_repo
+CREATE OR REPLACE GIT REPOSITORY database_common.public.database_repo
   API_INTEGRATION = git_api_integration
   ORIGIN = 'https://github.com/POzd1D/sfguide-getting-started-with-snowflake-devops'; -- INSERT URL OF FORKED REPO HERE
 
 
-CREATE OR REPLACE DATABASE QUICKSTART_{{environment}}; ;
+CREATE OR REPLACE DATABASE database_{{environment}}; ;
 
 
 -- To monitor data pipeline's completion
@@ -41,4 +41,4 @@ CREATE OR REPLACE STAGE bronze.raw;
 
 
 -- Copy file from GitHub to internal stage
-copy files into @bronze.raw from @quickstart_common.public.quickstart_repo/branches/main/data/airport_list.json;
+copy files into @bronze.raw from @database_common.public.database_repo/branches/main/data/airport_list.json;

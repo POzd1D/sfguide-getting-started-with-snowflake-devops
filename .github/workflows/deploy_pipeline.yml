@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - dev
+      - test
       - main
 
   # Allows you to run this workflow manually from the Actions tab
@@ -15,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      REPO_NAME: "quickstart_common.public.quickstart_repo"
+      REPO_NAME: "database_common.public.database_repo"
       # Read connection secrets
       SNOWFLAKE_CONNECTIONS_DEFAULT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_CONNECTIONS_DEFAULT_USER: ${{ secrets.SNOWFLAKE_USER }}
@@ -44,6 +45,8 @@ jobs:
             RETENTION_TIME=1
           elif [ "${BRANCH_NAME}" == "dev" ]; then
             RETENTION_TIME=0
+            elif [ "${BRANCH_NAME}" == "test" ]; then
+            RETENTION_TIME=1
           fi
           snow git execute \
             "@${REPO_NAME}/branches/${BRANCH_NAME}/deploy_parametrized_pipeline.sql" \
