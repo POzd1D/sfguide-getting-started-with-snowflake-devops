@@ -15,7 +15,7 @@ create or alter table vacation_spots (
   , aquarium_cnt int
 , zoo_cnt int
 , korean_restaurant_cnt int
-, ZOO_AVG_CNT float
+--, ZOO_AVG_CNT float
 ) data_retention_time_in_days = {{retention_time}};
 
 
@@ -25,7 +25,7 @@ create or alter task vacation_spots_update
   warehouse = 'database_wh'
   AS MERGE INTO vacation_spots USING (
     select *
-    ,AVG(ZOO_CNT) OVER () as ZOO_AVG_CNT
+    --,AVG(ZOO_CNT) OVER () as ZOO_AVG_CNT
     from silver.flights_from_home flight
     join silver.weather_joined_with_major_cities city on city.geo_name = flight.arrival_city
     join silver.attractions att on att.geo_name = city.geo_name
@@ -42,7 +42,7 @@ create or alter task vacation_spots_update
       , vacation_spots.aquarium_cnt = harmonized_vacation_spots.aquarium_cnt
 , vacation_spots.zoo_cnt = harmonized_vacation_spots.zoo_cnt
 , vacation_spots.korean_restaurant_cnt = harmonized_vacation_spots.korean_restaurant_cnt
-, vacation_spots.ZOO_AVG_CNT = harmonized_vacation_spots.ZOO_AVG_CNT
+--, vacation_spots.ZOO_AVG_CNT = harmonized_vacation_spots.ZOO_AVG_CNT
   
   WHEN NOT MATCHED THEN 
     INSERT VALUES (
@@ -57,7 +57,7 @@ create or alter task vacation_spots_update
       , harmonized_vacation_spots.aquarium_cnt
 , harmonized_vacation_spots.zoo_cnt
 , harmonized_vacation_spots.korean_restaurant_cnt
-, harmonized_vacation_spots.ZOO_AVG_CNT
+--, harmonized_vacation_spots.ZOO_AVG_CNT
  
     );
 
