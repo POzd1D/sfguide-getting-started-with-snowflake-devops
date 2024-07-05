@@ -50,7 +50,7 @@ jobs:
           fi
 
           # Get the list of changed files
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r $CI_COMMIT_SHA)
 
           for FILE in $CHANGED_FILES; do
           
