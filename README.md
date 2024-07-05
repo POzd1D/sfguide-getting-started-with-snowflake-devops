@@ -1,4 +1,4 @@
-# Getting Started with Snowflake DevOps
+Snowflake DevOps
 
 This repository contains the code for the *Getting Started with Snowflake DevOps* quickstart.
 
