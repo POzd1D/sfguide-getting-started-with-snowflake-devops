@@ -23,6 +23,16 @@ jobs:
       SNOWFLAKE_CONNECTIONS_DEFAULT_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
     steps:
+       - checkout: self
+        fetchDepth: 2
+
+        - task: Bash@3
+          name: ModifiedFiles
+          inputs:
+      targetType: 'inline'
+      script: |
+        MODIFIED_FILES=$(git diff HEAD HEAD~ --name-only)
+        echo $MODIFIED_FILES
       # Checkout step is necessary if you want to use a config file from your repo
       - name: Checkout repository
         uses: actions/checkout@v4
