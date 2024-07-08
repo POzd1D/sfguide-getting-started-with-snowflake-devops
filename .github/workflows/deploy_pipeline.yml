@@ -49,6 +49,9 @@ jobs:
             RETENTION_TIME=1
           fi
 
+          echo "${BRANCH_NAME}"
+          echo $(git diff --name-only "${BRANCH_NAME}")
+
           # Get the list of changed files
           CHANGED_FILES=$(git diff --name-only "${BRANCH_NAME}")
           echo $CHANGED_FILES
