@@ -51,7 +51,7 @@ jobs:
 
           # Get the list of changed files
           CHANGED_FILES=$(git diff --name-only "${BRANCH_NAME}")
-          echo Changed_Files
+          echo $Changed_Files
           
           for FILE in $CHANGED_FILES; do
           echo "Executing $FILE"
