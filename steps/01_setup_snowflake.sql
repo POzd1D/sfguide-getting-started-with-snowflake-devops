@@ -3,7 +3,7 @@ USE ROLE ACCOUNTADMIN;
 CREATE WAREHOUSE IF NOT EXISTS DATABASE_WH WAREHOUSE_SIZE = XSMALL, AUTO_SUSPEND = 300, AUTO_RESUME= TRUE;
 
 
--- Separate database for git repository test
+-- Separate database for git repository test2
 CREATE DATABASE IF NOT EXISTS DATABASE_COMMON;
 
 
