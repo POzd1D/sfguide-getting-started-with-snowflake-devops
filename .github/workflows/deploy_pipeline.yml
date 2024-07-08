@@ -53,7 +53,7 @@ jobs:
           CHANGED_FILES=$(git diff --name-only "${BRANCH_NAME}")
 
           for FILE in $CHANGED_FILES; do
-          
+          echo "Executing $FILE"
           if [[ "$FILE" == *.sql ]]; then
               echo "Executing $FILE"
               snow git execute \
